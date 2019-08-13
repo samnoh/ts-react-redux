@@ -1,13 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 
-interface Props {
-    msg?: string;
-}
+import { Todos } from '../containers';
 
-export const App: React.FunctionComponent<Props> = ({ msg }) => {
-    return (
-        <>
-            <h1>Hi</h1>
-        </>
-    );
+export const App = () => {
+    return <Todos />;
 };
