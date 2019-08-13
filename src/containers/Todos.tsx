@@ -4,33 +4,30 @@ import { connect } from 'react-redux';
 import { Todo, getTodos, deleteTodo } from '../actions';
 import { StoreState } from '../reducers';
 import { TodoItem } from '../components';
-import { useLoadingStatus } from '../hooks';
 
 interface Props {
     todos: Todo[];
+    loading: boolean;
+    error: any;
     getTodos: Function;
     deleteTodo: typeof deleteTodo;
 }
 
-const _Todos = ({ todos, getTodos, deleteTodo }: Props) => {
-    const [isLoading, setIsLoading] = useLoadingStatus(true);
-
+const _Todos = ({ todos, loading, error, getTodos, deleteTodo }: Props) => {
     useEffect(() => {
         getTodos();
-    }, []);
+    }, [getTodos]);
 
-    useEffect(() => {
-        setIsLoading(false);
-    }, [setIsLoading, todos.length]);
+    if (loading) return <h1>'loading...'</h1>;
 
-    if (isLoading) return <h1>'loading...'</h1>;
+    if (error) return <div style={{ color: 'red' }}>Error: {error}</div>;
 
     return (
         <div className="todos">
             <ul>
                 {todos.map(todo => (
-                    <div onClick={() => deleteTodo(todo.id)}>
-                        <TodoItem key={todo.id} {...todo} />
+                    <div key={todo.id} onClick={() => deleteTodo(todo.id)}>
+                        <TodoItem {...todo} />
                     </div>
                 ))}
             </ul>
@@ -39,8 +36,10 @@ const _Todos = ({ todos, getTodos, deleteTodo }: Props) => {
 };
 
 export const Todos = connect(
-    ({ todos }: StoreState): { todos: Todo[] } => ({
-        todos
+    (state: StoreState): { todos: Todo[]; loading: boolean; error: any } => ({
+        todos: state.todos.data,
+        loading: state.todos.loading,
+        error: state.todos.error
     }),
     { getTodos, deleteTodo }
 )(_Todos);
