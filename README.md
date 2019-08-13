@@ -63,12 +63,12 @@ interface IDeleteData extends Action<ActionTypes.DELETE_DATA> {
 
 type DataActions = ILoadData | IDeleteData | IeditData;
 
-const loadData = () => async(dispatch: Dispatch) => {
+const loadData = () => async (dispatch: Dispatch): Promise<void> => {
     const res = await ...
     dispatch<ILoadData>({ type: ActionTypes.LOAD_DATA, payload: res.data });
 };
 
-const deleteData = (id: number):IDeleteData => ({
+const deleteData = (id: number): IDeleteData => ({
     type: ActionTypes.LOAD_DATA,
     payload: id
 });
@@ -105,7 +105,16 @@ const rootReducer = combineReducers<IAppState>({
 
 ```typescript
 import { connect } from 'react-redux';
-...
+
+interface IProps {
+    data: Data[];
+    loadData: () => Promise<void>;
+    deleteData: typeof deleteData
+}
+export const _DataContainer = ({data, loadData, deleteData}: IProps) => {
+    return ...
+}
+
 const DataContainer = connect(
     (store: IDataState) => ({
         data: store.data.data
