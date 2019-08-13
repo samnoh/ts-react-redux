@@ -34,6 +34,14 @@ export const App = <P extends string>(props: Props<P>) => {
 
 ### TS + Redux + Thunk
 
+-   Store
+
+```typescript
+import { createStore, applyMiddleware, Store } from 'redux';
+
+const store: Store<IAppState> = createStore(rootReducer, applyMiddleware(thunk));
+```
+
 -   Action Creator
 
 ```typescript
@@ -104,12 +112,4 @@ const DataContainer = connect(
     }),
     { loadData, deleteData }
 )(_DataContainer);
-```
-
--   Store
-
-```typescript
-import { createStore, applyMiddleware, Store } from 'redux';
-
-const store: Store<IAppState> = createStore(rootReducer, applyMiddleware(thunk));
 ```
