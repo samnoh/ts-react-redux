@@ -1,22 +1,23 @@
 import React, { useEffect } from 'react';
+import { AnyAction } from 'redux';
 import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
-import { Todo, getTodos, deleteTodo } from '../actions';
-import { StoreState } from '../reducers';
+import { Todo, getTodos, deleteTodo, IAppState } from '../actions';
 import { TodoItem } from '../components';
 
-interface Props {
+interface IProps {
     todos: Todo[];
     loading: boolean;
     error: any;
-    getTodos: Function;
+    getTodos: () => Promise<void>;
     deleteTodo: typeof deleteTodo;
 }
 
-const _Todos = ({ todos, loading, error, getTodos, deleteTodo }: Props) => {
+const _Todos = ({ todos, loading, error, getTodos, deleteTodo }: IProps) => {
     useEffect(() => {
         getTodos();
-    }, [getTodos]);
+    }, []);
 
     if (loading) return <h1>'loading...'</h1>;
 
@@ -36,10 +37,15 @@ const _Todos = ({ todos, loading, error, getTodos, deleteTodo }: Props) => {
 };
 
 export const Todos = connect(
-    (state: StoreState): { todos: Todo[]; loading: boolean; error: any } => ({
-        todos: state.todos.data,
-        loading: state.todos.loading,
-        error: state.todos.error
+    (store: IAppState) => ({
+        todos: store.todos.data,
+        loading: store.todos.loading,
+        error: store.todos.error
     }),
-    { getTodos, deleteTodo }
+    (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+        return {
+            getTodos: () => dispatch(getTodos()),
+            deleteTodo: (id: number) => dispatch(deleteTodo(id))
+        };
+    }
 )(_Todos);

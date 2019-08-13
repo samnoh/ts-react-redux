@@ -1,7 +1,13 @@
-import { ThunkDispatch } from 'redux-thunk';
+import { Dispatch } from 'redux';
 
 import * as api from '../api';
-import { ActionTypes } from './types';
+import {
+    ActionTypes,
+    IDeleteTodoAction,
+    IGetTodosAction,
+    ITodoErrorAction,
+    ITodoLoadingAction
+} from './types';
 
 export interface TodosState {
     data: Todo[];
@@ -15,38 +21,22 @@ export interface Todo {
     completed: boolean;
 }
 
-export interface GetTodosAction {
-    type:
-        | ActionTypes.GET_TODOS_ERROR
-        | ActionTypes.GET_TODOS_LOADING
-        | ActionTypes.GET_TODOS_SUCCESS;
-    payload?: Todo[];
-    error?: any;
-}
-
-export interface DeleteTodoAction {
-    type: ActionTypes.DELETE_TODOS;
-    payload: number;
-}
-
 // action creators
-export const getTodos = () => async (
-    dispatch: ThunkDispatch<TodosState, undefined, GetTodosAction>
-): Promise<void> => {
+export const getTodos = () => async (dispatch: Dispatch) => {
     try {
-        dispatch<GetTodosAction>({ type: ActionTypes.GET_TODOS_LOADING });
+        dispatch<ITodoLoadingAction>({ type: ActionTypes.GET_TODOS_LOADING });
         const res = await api.getTodos();
-        dispatch<GetTodosAction>({
+        dispatch<IGetTodosAction>({
             type: ActionTypes.GET_TODOS_SUCCESS,
             payload: res.data
         });
     } catch (e) {
         console.error(e);
-        dispatch<GetTodosAction>({ type: ActionTypes.GET_TODOS_ERROR, error: e });
+        dispatch<ITodoErrorAction>({ type: ActionTypes.GET_TODOS_ERROR, error: e });
     }
 };
 
-export const deleteTodo = (id: number): DeleteTodoAction => ({
+export const deleteTodo = (id: number): IDeleteTodoAction => ({
     type: ActionTypes.DELETE_TODOS,
     payload: id
 });

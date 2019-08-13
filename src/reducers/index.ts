@@ -1,12 +1,8 @@
 import { combineReducers } from 'redux';
 
 import { todosReducer } from './todos';
-import { TodosState } from '../actions';
+import { IAppState } from '../actions';
 
-export interface StoreState {
-    todos: TodosState;
-}
-
-export const rootReducer = combineReducers<StoreState>({
+export const rootReducer = combineReducers<IAppState>({
     todos: todosReducer
 });

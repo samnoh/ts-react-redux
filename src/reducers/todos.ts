@@ -1,12 +1,13 @@
-import { Todo, Action, ActionTypes, TodosState } from '../actions';
+import { Reducer } from 'redux';
+import { Todo, ActionTypes, ITodoState, TodoActions } from '../actions';
 
-const initialState: TodosState = {
+const initialState: ITodoState = {
     data: [],
     loading: false,
     error: ''
 };
 
-export const todosReducer = (state = initialState, action: Action | any) => {
+export const todosReducer: Reducer<ITodoState, TodoActions> = (state = initialState, action) => {
     switch (action.type) {
         case ActionTypes.GET_TODOS_LOADING:
             return {

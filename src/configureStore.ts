@@ -1,9 +1,10 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, Store } from 'redux';
 import thunk from 'redux-thunk';
 
 import { rootReducer } from './reducers';
+import { IAppState } from './actions';
 
-export const store = createStore(
+export const store: Store<IAppState> = createStore(
     rootReducer,
     compose(
         applyMiddleware(thunk),
