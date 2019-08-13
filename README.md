@@ -111,11 +111,11 @@ interface IProps {
     loadData: () => Promise<void>;
     deleteData: typeof deleteData
 }
-export const _DataContainer = ({data, loadData, deleteData}: IProps) => {
+const _DataContainer = ({data, loadData, deleteData}: IProps) => {
     return ...
 }
 
-const DataContainer = connect(
+export const DataContainer = connect(
     (store: IDataState) => ({
         data: store.data.data
     }),
