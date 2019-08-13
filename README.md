@@ -71,7 +71,9 @@ const deleteData = (id: number):IDeleteData => ({
 ```typescript
 import { Reducer } from 'redux';
 
-interface IDataState { ... }
+interface IDataState {
+    readonly data: Data[];
+ }
 
 const initialState: IDataState = { ... };
 
@@ -81,6 +83,14 @@ const DataReducer: Reducer<IDataState, DataActions> = (state = initialState, act
             ...
     }
 }
+
+interface IAppState {
+    readonly data: IDataState;
+}
+
+const rootReducer = combineReducers<IAppState>({
+    data: DataReducer
+});
 ```
 
 -   Connect
@@ -94,4 +104,12 @@ const DataContainer = connect(
     }),
     { loadData, deleteData }
 )(_DataContainer);
+```
+
+-   Store
+
+```typescript
+import { createStore, applyMiddleware, Store } from 'redux';
+
+const store: Store<IAppState> = createStore(rootReducer, applyMiddleware(thunk));
 ```
