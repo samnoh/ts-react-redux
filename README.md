@@ -83,7 +83,9 @@ interface IDataState {
     readonly data: Data[];
  }
 
-const initialState: IDataState = { ... };
+const initialState: IDataState = {
+    data: []
+};
 
 const DataReducer: Reducer<IDataState, DataActions> = (state = initialState, action) => {
     switch(action.type) {
