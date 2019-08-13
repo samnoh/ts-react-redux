@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { Todo, getTodos } from '../actions';
 import { StoreState } from '../reducers';
-import { TodoView } from '../components';
+import { TodoItem } from '../components';
 
 interface Props {
     todos: Todo[];
@@ -19,7 +19,7 @@ const _Todos = ({ todos, getTodos }: Props) => {
         <div className="todos">
             <ul>
                 {todos.map(todo => (
-                    <TodoView key={todo.id} {...todo} />
+                    <TodoItem key={todo.id} {...todo} />
                 ))}
             </ul>
         </div>
