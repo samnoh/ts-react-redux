@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { Todo, getTodos } from '../actions';
+import { Todo, getTodos, deleteTodo } from '../actions';
 import { StoreState } from '../reducers';
 import { TodoItem } from '../components';
 
 interface Props {
     todos: Todo[];
-    getTodos(): any;
+    getTodos: Function;
+    deleteTodo: typeof deleteTodo;
 }
 
-const _Todos = ({ todos, getTodos }: Props) => {
+const _Todos = ({ todos, getTodos, deleteTodo }: Props) => {
     useEffect(() => {
         getTodos();
     }, [getTodos]);
@@ -19,7 +20,9 @@ const _Todos = ({ todos, getTodos }: Props) => {
         <div className="todos">
             <ul>
                 {todos.map(todo => (
-                    <TodoItem key={todo.id} {...todo} />
+                    <div onClick={() => deleteTodo(todo.id)}>
+                        <TodoItem key={todo.id} {...todo} />
+                    </div>
                 ))}
             </ul>
         </div>
@@ -30,5 +33,5 @@ export const Todos = connect(
     ({ todos }: StoreState): { todos: Todo[] } => ({
         todos
     }),
-    { getTodos }
+    { getTodos, deleteTodo }
 )(_Todos);

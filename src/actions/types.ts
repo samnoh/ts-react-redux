@@ -1,3 +1,8 @@
+import { GetTodosAction, DeleteTodoAction } from './todoActions';
+
 export enum ActionTypes {
-    getTodos
+    GET_TODOS,
+    DELETE_TODOS
 }
+
+export type Action = GetTodosAction | DeleteTodoAction;
