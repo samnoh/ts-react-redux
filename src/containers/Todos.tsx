@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Todo, getTodos, deleteTodo } from '../actions';
 import { StoreState } from '../reducers';
 import { TodoItem } from '../components';
+import { useLoadingStatus } from '../hooks';
 
 interface Props {
     todos: Todo[];
@@ -12,9 +13,17 @@ interface Props {
 }
 
 const _Todos = ({ todos, getTodos, deleteTodo }: Props) => {
+    const [isLoading, setIsLoading] = useLoadingStatus(true);
+
     useEffect(() => {
         getTodos();
-    }, [getTodos]);
+    }, []);
+
+    useEffect(() => {
+        setIsLoading(false);
+    }, [setIsLoading, todos.length]);
+
+    if (isLoading) return <h1>'loading...'</h1>;
 
     return (
         <div className="todos">

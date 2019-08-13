@@ -23,7 +23,7 @@ export interface DeleteTodoAction {
 export const getTodos = () => async (dispatch: Dispatch) => {
     const res = await axios.get<Todo[]>('https://jsonplaceholder.typicode.com/todos');
 
-    dispatch<GetTodosAction>({
+    return dispatch<GetTodosAction>({
         type: ActionTypes.GET_TODOS,
         payload: res.data
     });
