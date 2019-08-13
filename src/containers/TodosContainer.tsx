@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { AnyAction } from 'redux';
 import { connect } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
 
-import { Todo, getTodos, deleteTodo, IAppState } from '../actions';
+import { Todo, getTodos, deleteTodo } from '../actions';
+import { IAppState } from '../reducers';
 import { TodoItem } from '../components';
 
 interface IProps {
@@ -14,9 +13,10 @@ interface IProps {
     deleteTodo: typeof deleteTodo;
 }
 
-const _Todos = ({ todos, loading, error, getTodos, deleteTodo }: IProps) => {
+const _TodosContainer = ({ todos, loading, error, getTodos, deleteTodo }: IProps) => {
     useEffect(() => {
         getTodos();
+        // eslint-disable-next-line
     }, []);
 
     if (loading) return <h1>'loading...'</h1>;
@@ -27,8 +27,8 @@ const _Todos = ({ todos, loading, error, getTodos, deleteTodo }: IProps) => {
         <div className="todos">
             <ul>
                 {todos.map(todo => (
-                    <div key={todo.id} onClick={() => deleteTodo(todo.id)}>
-                        <TodoItem {...todo} />
+                    <div onClick={() => deleteTodo(todo.id)}>
+                        <TodoItem {...todo} key={todo.id} />
                     </div>
                 ))}
             </ul>
@@ -36,16 +36,17 @@ const _Todos = ({ todos, loading, error, getTodos, deleteTodo }: IProps) => {
     );
 };
 
-export const Todos = connect(
+export const TodosContainer = connect(
     (store: IAppState) => ({
         todos: store.todos.data,
         loading: store.todos.loading,
         error: store.todos.error
     }),
-    (dispatch: ThunkDispatch<any, any, AnyAction>) => {
-        return {
-            getTodos: () => dispatch(getTodos()),
-            deleteTodo: (id: number) => dispatch(deleteTodo(id))
-        };
-    }
-)(_Todos);
+    { getTodos, deleteTodo }
+    // (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+    //     return {
+    //         getTodos: () => dispatch(getTodos()),
+    //         deleteTodo: (id: number) => dispatch(deleteTodo(id))
+    //     };
+    // }
+)(_TodosContainer);

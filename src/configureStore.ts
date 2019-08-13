@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose, Store } from 'redux';
 import thunk from 'redux-thunk';
 
 import { rootReducer } from './reducers';
-import { IAppState } from './actions';
+import { IAppState } from './reducers';
 
 export const store: Store<IAppState> = createStore(
     rootReducer,

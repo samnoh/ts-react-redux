@@ -1,30 +1,40 @@
+import { Action } from 'redux';
 import { Dispatch } from 'redux';
 
 import * as api from '../api';
-import {
-    ActionTypes,
-    IDeleteTodoAction,
-    IGetTodosAction,
-    ITodoErrorAction,
-    ITodoLoadingAction
-} from './types';
+import { ActionTypes } from './types';
 
-export interface TodosState {
-    data: Todo[];
-    loading: boolean;
-    error: string;
-}
-
+// Interfaces
 export interface Todo {
     id: number;
     title: string;
     completed: boolean;
 }
 
+export interface ITodosLoadingAction extends Action<ActionTypes.GET_TODOS_LOADING> {}
+
+export interface IGetTodosAction extends Action<ActionTypes.GET_TODOS_SUCCESS> {
+    payload: Todo[];
+}
+
+export interface ITodosErrorAction extends Action<ActionTypes.GET_TODOS_ERROR> {
+    error: any;
+}
+
+export interface IDeleteTodoAction extends Action<ActionTypes.DELETE_TODOS> {
+    payload: number;
+}
+
+export type TodoActions =
+    | ITodosLoadingAction
+    | IGetTodosAction
+    | ITodosErrorAction
+    | IDeleteTodoAction;
+
 // action creators
-export const getTodos = () => async (dispatch: Dispatch) => {
+export const getTodos = () => async (dispatch: Dispatch): Promise<void> => {
     try {
-        dispatch<ITodoLoadingAction>({ type: ActionTypes.GET_TODOS_LOADING });
+        dispatch<ITodosLoadingAction>({ type: ActionTypes.GET_TODOS_LOADING });
         const res = await api.getTodos();
         dispatch<IGetTodosAction>({
             type: ActionTypes.GET_TODOS_SUCCESS,
@@ -32,7 +42,7 @@ export const getTodos = () => async (dispatch: Dispatch) => {
         });
     } catch (e) {
         console.error(e);
-        dispatch<ITodoErrorAction>({ type: ActionTypes.GET_TODOS_ERROR, error: e });
+        dispatch<ITodosErrorAction>({ type: ActionTypes.GET_TODOS_ERROR, error: e });
     }
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Todos } from '../containers';
+import { TodosContainer } from '../containers';
 
 export const App = () => {
-    return <Todos />;
+    return <TodosContainer />;
 };

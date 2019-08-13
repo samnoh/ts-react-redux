@@ -1,5 +1,11 @@
 import { Reducer } from 'redux';
-import { Todo, ActionTypes, ITodoState, TodoActions } from '../actions';
+import { Todo, ActionTypes, TodoActions } from '../actions';
+
+export interface ITodoState {
+    readonly data: Todo[];
+    readonly loading: boolean;
+    readonly error: any;
+}
 
 const initialState: ITodoState = {
     data: [],
