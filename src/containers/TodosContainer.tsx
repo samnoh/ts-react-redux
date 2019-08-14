@@ -45,11 +45,5 @@ export const TodosContainer = withRouter(
             error: store.todos.error
         }),
         { getTodos, deleteTodo }
-        // (dispatch: ThunkDispatch<any, any, AnyAction>) => {
-        //     return {
-        //         getTodos: () => dispatch(getTodos()),
-        //         deleteTodo: (id: number) => dispatch(deleteTodo(id))
-        //     };
-        // }
     )(_TodosContainer)
 );

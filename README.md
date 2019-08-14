@@ -5,6 +5,7 @@
 -   axios
 -   react
 -   react-redux
+-   react-router-dom
 -   redux
 -   redux-thunk
 
@@ -32,7 +33,7 @@ export const App = <P extends string>(props: Props<P>) => {
 };
 ```
 
-### TS + Redux + Thunk
+### TS + Redux + Redux Thunk
 
 -   Store
 
@@ -127,4 +128,29 @@ export const DataContainer = connect(
     }),
     { loadData, deleteData }
 )(_DataContainer);
+```
+
+### TS + React Router
+
+```tsx
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+
+interface IProps extends RouteComponentProps {}
+
+const _DataContainer = (props: IProps) => {
+    return <div onClick={() => props.history.goBack()}>{props.data}</div>
+}
+
+export withRouter(_DataContainer);
+```
+
+### Dynamic Imports
+
+-   webpackChunkName
+
+```javascript
+const handleClick = async () => {
+    const module = await import(/* webpackChunkName: 'main' */ './main'); // -> main.[hash].chunk.js
+    module.default();
+};
 ```
