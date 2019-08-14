@@ -28,8 +28,8 @@ const _TodosContainer = ({ todos, loading, error, getTodos, deleteTodo }: IProps
         <div className="todos">
             <ul>
                 {todos.map(todo => (
-                    <div onClick={() => deleteTodo(todo.id)}>
-                        <TodoItem {...todo} key={todo.id} />
+                    <div key={todo.id} onClick={() => deleteTodo(todo.id)}>
+                        <TodoItem {...todo} />
                     </div>
                 ))}
             </ul>
