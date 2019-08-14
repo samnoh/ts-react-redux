@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { Todo, getTodos, deleteTodo } from '../actions';
 import { IAppState } from '../reducers';
 import { TodoItem } from '../components';
 
-interface IProps {
+interface IProps extends RouteComponentProps {
     todos: Todo[];
     loading: boolean;
     error: any;
@@ -15,7 +16,7 @@ interface IProps {
 
 const _TodosContainer = ({ todos, loading, error, getTodos, deleteTodo }: IProps) => {
     useEffect(() => {
-        getTodos();
+        if (!todos.length) getTodos();
         // eslint-disable-next-line
     }, []);
 
@@ -36,17 +37,19 @@ const _TodosContainer = ({ todos, loading, error, getTodos, deleteTodo }: IProps
     );
 };
 
-export const TodosContainer = connect(
-    (store: IAppState) => ({
-        todos: store.todos.data,
-        loading: store.todos.loading,
-        error: store.todos.error
-    }),
-    { getTodos, deleteTodo }
-    // (dispatch: ThunkDispatch<any, any, AnyAction>) => {
-    //     return {
-    //         getTodos: () => dispatch(getTodos()),
-    //         deleteTodo: (id: number) => dispatch(deleteTodo(id))
-    //     };
-    // }
-)(_TodosContainer);
+export const TodosContainer = withRouter(
+    connect(
+        (store: IAppState) => ({
+            todos: store.todos.data,
+            loading: store.todos.loading,
+            error: store.todos.error
+        }),
+        { getTodos, deleteTodo }
+        // (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+        //     return {
+        //         getTodos: () => dispatch(getTodos()),
+        //         deleteTodo: (id: number) => dispatch(deleteTodo(id))
+        //     };
+        // }
+    )(_TodosContainer)
+);

@@ -13,7 +13,10 @@ const initialState: ITodoState = {
     error: ''
 };
 
-export const todosReducer: Reducer<ITodoState, TodoActions> = (state = initialState, action) => {
+export const todosReducer: Reducer<ITodoState, TodoActions> = (
+    state = initialState,
+    action
+): ITodoState => {
     switch (action.type) {
         case ActionTypes.GET_TODOS_LOADING:
             return {

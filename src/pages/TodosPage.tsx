@@ -2,6 +2,8 @@ import React from 'react';
 
 import { TodosContainer } from '../containers';
 
-export const App = () => {
+const TodosPage = () => {
     return <TodosContainer />;
 };
+
+export default TodosPage;
