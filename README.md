@@ -8,6 +8,7 @@
 -   react-router-dom
 -   redux
 -   redux-thunk
+-   @loadable/component
 
 ## `TIL`
 
