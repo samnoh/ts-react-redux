@@ -10,7 +10,7 @@
 
 ## `TIL`
 
-### RCA
+### CRA
 
 -   `--typescript`
 
@@ -64,7 +64,7 @@ interface IDeleteData extends Action<ActionTypes.DELETE_DATA> {
 type DataActions = ILoadData | IDeleteData | IeditData;
 
 const loadData = () => async (dispatch: Dispatch): Promise<void> => {
-    try{
+    try {
         const res = await ...
         dispatch<ILoadData>({ type: ActionTypes.LOAD_DATA, payload: res.data });
     } catch(e) {
