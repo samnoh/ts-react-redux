@@ -4,6 +4,10 @@
     align-items: center;
     background-color: gray;
     height: 60px;
+
+    &-active {
+        color: yellowgreen;
+    }
 }
 
 a {

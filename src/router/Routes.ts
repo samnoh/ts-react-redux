@@ -1,4 +1,4 @@
-import loadable, { LoadableComponent } from '@loadable/component';
+import loadable from '@loadable/component';
 
 export const HomePage = loadable(() =>
     import(/* webpackChunkName: "HomePage" */ '../pages/HomePage').then(
